@@ -2,19 +2,27 @@
 
 char *loadFile(const char *path)
 {
+
+	/*@DOCSTART
+	 This function is the function responsible to implement the file loading.
+	 In the input is a char point (A string) for the path of the file.
+	@DOCEND
+	*/
 	FILE *file;
 	char buffer[FILE_CHUNK_SIZE];
 	char *fileContent = NULL;
 	size_t bytesRead;
 	size_t totalSize = 0;
 
+	// open file
 	file = fopen(path, "r");
 	if (file == NULL)
 	{
 		perror("Error opening file");
-		return 'File is NULL, check the reference';
+		return "File is NULL, check the reference";
 	}
 
+	// read file content
 	while ((bytesRead = fread(buffer, 1, FILE_CHUNK_SIZE, file)) > 0)
 	{
 		char *auxiliarChar = realloc(fileContent, totalSize + bytesRead);
@@ -24,7 +32,7 @@ char *loadFile(const char *path)
 			{
 				perror("Error: File has NULL data");
 				fclose(file);
-				free(fileContent);
+				// free(fileContent);
 				return "File has NULL data inside";
 			}
 			perror("Error: Can't realloc memory");
@@ -35,33 +43,102 @@ char *loadFile(const char *path)
 
 		memcpy(fileContent + totalSize, buffer, bytesRead);
 		totalSize += bytesRead;
-		free(auxiliarChar);
+		// free(auxiliarChar);
 	}
 
+	// check errors
 	if (ferror(file))
 	{
 		perror("Error reading file");
 		free(fileContent);
 		fclose(file);
-		return 'File read error';
+		return "File read error";
 	}
 
 	fclose(file);
 
+	// check errors
 	fileContent = realloc(fileContent, totalSize + 1); // One extra byte for the null terminator
 	if (fileContent == NULL)
 	{
 		perror("Memory allocation failed");
-		return 'mem error';
+		return "mem error";
 	}
 
+	// add the null terminator
 	fileContent[totalSize] = '\0';
 
 	return fileContent;
 }
 
-void removeNonComments(char *input, char *output)
+char *removeNonComments(char *input)
 {
-	printf("%s\n", DOCSTART);
-	return;
+	bool isSingleLine = false;
+	bool isInMultiLine = false;
+	int readIndex = 0;
+	int inputLength = strlen(input);
+	int returnStringWriteIndex = 0;
+	// char returnString[inputLength + 1];
+	char *returnString = (char *)malloc(inputLength + 1);
+
+	if (returnString == NULL)
+	{
+		perror("memory error");
+		return "Insert comments in the file";
+	}
+
+	while (readIndex < inputLength)
+	{
+		// Check if is in no block and if is a blank space
+		if (!isSingleLine && !isInMultiLine && isspace(input[readIndex]))
+		{
+			readIndex++;
+			continue;
+		}
+		//
+		// Check if is a single line comment
+		if (!isSingleLine && input[readIndex] == '/' && input[readIndex + 1] == '/')
+		{
+			isSingleLine = true;
+		}
+		//
+		// Check if is a MULTI line comment
+		if (!isInMultiLine && input[readIndex] == '/' && input[readIndex + 1] == '*')
+		{
+			isInMultiLine = true;
+		}
+
+		// Treat the comments:
+		if (isSingleLine)
+		{
+			// Check single line end
+			if (input[readIndex] == '\n')
+			{
+				isSingleLine = false; // Fim do comentário de linha única
+			}
+			returnString[returnStringWriteIndex] = input[readIndex];
+			returnStringWriteIndex++;
+			readIndex++;
+			continue;
+		}
+
+		// Enquanto estivermos dentro de um comentário multilinha, copiamos até encontrar '*/'
+		if (isInMultiLine)
+		{
+			if (input[readIndex] == '*' && input[readIndex + 1] == '/')
+			{
+				isInMultiLine = false; // Fim do comentário multilinha
+				returnString[returnStringWriteIndex] = input[readIndex];
+				returnStringWriteIndex++;
+				readIndex++;
+			}
+			returnString[returnStringWriteIndex] = input[readIndex];
+			returnStringWriteIndex++;
+			readIndex++;
+			continue;
+		}
+		readIndex++;
+	}
+
+	return returnString;
 }

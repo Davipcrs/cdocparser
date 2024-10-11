@@ -4,7 +4,8 @@
 
 int main()
 {
-	char *aux1, *aux2;
-	removeNonComments(aux1, aux2);
+	char *data = loadFile("./file_preprocessor.c");
+	char *r = removeNonComments(data);
+	printf("%s", r);
 	return 0;
 }
