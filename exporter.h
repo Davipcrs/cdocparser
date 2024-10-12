@@ -4,5 +4,5 @@
 #include "consts_def.h";
 #include "comments_reader.h";
 
-void mdFormatter();
 void mdExporter();
+void txtExporter();

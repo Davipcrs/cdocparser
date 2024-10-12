@@ -8,6 +8,5 @@
 #include <stdbool.h>
 
 const char *docExtractor(const char *input);
-void appendString(char **dest, const char *src, size_t *currentSize);
 
 #endif
