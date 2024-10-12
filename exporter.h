@@ -4,4 +4,5 @@
 #include "consts_def.h";
 #include "comments_reader.h";
 
-void extractDoc(){}
+void mdFormatter();
+void mdExporter();

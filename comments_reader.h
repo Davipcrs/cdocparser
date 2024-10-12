@@ -1,14 +1,13 @@
-#include <string.h>;
-#include <stdio.h>;
-#include <stdlib.h>;
-#include "consts_def.h";
+#ifndef COMMENTS_READER_H
+#define COMMENTS_READER_H
 
-struct cdstring
-{
-    char data[4096];
-    int lenght;
-};
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "consts_def.h"
+#include <stdbool.h>
 
-int checkTokens();
-void checkComments();
-int checkTokenBlock();
+const char *docExtractor(const char *input);
+void appendString(char **dest, const char *src, size_t *currentSize);
+
+#endif

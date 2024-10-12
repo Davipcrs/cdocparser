@@ -3,9 +3,10 @@
 char *loadFile(const char *path)
 {
 
-	/*@DOCSTART
-	 This function is the function responsible to implement the file loading.
-	 In the input is a char point (A string) for the path of the file.
+	/*
+	@DOCSTART
+	This function is the function responsible to implement the file loading.
+	In the input is a char point (A string) for the path of the file.
 	@DOCEND
 	*/
 	FILE *file;
@@ -14,7 +15,7 @@ char *loadFile(const char *path)
 	size_t bytesRead;
 	size_t totalSize = 0;
 
-	// open file
+	// @DOCSTART open file
 	file = fopen(path, "r");
 	if (file == NULL)
 	{
@@ -67,7 +68,7 @@ char *loadFile(const char *path)
 
 	// add the null terminator
 	fileContent[totalSize] = '\0';
-
+	// @DOCEND
 	return fileContent;
 }
 
@@ -75,6 +76,8 @@ char *removeNonComments(char *input)
 {
 	bool isSingleLine = false;
 	bool isInMultiLine = false;
+	int saveIndexOfStartComment_aux1 = 0;
+	int saveIndexOfStartComment_aux2 = 0;
 	int readIndex = 0;
 	int inputLength = strlen(input);
 	int returnStringWriteIndex = 0;
@@ -95,17 +98,21 @@ char *removeNonComments(char *input)
 			readIndex++;
 			continue;
 		}
-		//
+
 		// Check if is a single line comment
 		if (!isSingleLine && input[readIndex] == '/' && input[readIndex + 1] == '/')
 		{
 			isSingleLine = true;
+			saveIndexOfStartComment_aux1 = readIndex;
+			saveIndexOfStartComment_aux2 = readIndex + 1;
 		}
-		//
+
 		// Check if is a MULTI line comment
 		if (!isInMultiLine && input[readIndex] == '/' && input[readIndex + 1] == '*')
 		{
 			isInMultiLine = true;
+			saveIndexOfStartComment_aux1 = readIndex;
+			saveIndexOfStartComment_aux2 = readIndex + 1;
 		}
 
 		// Treat the comments:
@@ -115,6 +122,14 @@ char *removeNonComments(char *input)
 			if (input[readIndex] == '\n')
 			{
 				isSingleLine = false; // Fim do comentário de linha única
+			}
+			if (saveIndexOfStartComment_aux1 == readIndex)
+			{
+				readIndex++;
+			}
+			if (saveIndexOfStartComment_aux2 == readIndex)
+			{
+				readIndex++;
 			}
 			returnString[returnStringWriteIndex] = input[readIndex];
 			returnStringWriteIndex++;
@@ -127,9 +142,15 @@ char *removeNonComments(char *input)
 		{
 			if (input[readIndex] == '*' && input[readIndex + 1] == '/')
 			{
-				isInMultiLine = false; // Fim do comentário multilinha
-				returnString[returnStringWriteIndex] = input[readIndex];
-				returnStringWriteIndex++;
+				isInMultiLine = false;
+				continue; // Fim do comentário multilinha
+			}
+			if (saveIndexOfStartComment_aux1 == readIndex)
+			{
+				readIndex++;
+			}
+			if (saveIndexOfStartComment_aux2 == readIndex)
+			{
 				readIndex++;
 			}
 			returnString[returnStringWriteIndex] = input[readIndex];
