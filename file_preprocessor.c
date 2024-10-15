@@ -2,20 +2,20 @@
 
 char *loadFile(const char *path)
 {
-
+	// @ID HEHE
 	/*
 	@DOCSTART
 	This function is the function responsible to implement the file loading.
 	In the input is a char point (A string) for the path of the file.
 	@DOCEND
 	*/
+
 	FILE *file;
 	char buffer[FILE_CHUNK_SIZE];
 	char *fileContent = NULL;
 	size_t bytesRead;
 	size_t totalSize = 0;
 
-	// @DOCSTART open file
 	file = fopen(path, "r");
 	if (file == NULL)
 	{
@@ -68,7 +68,7 @@ char *loadFile(const char *path)
 
 	// add the null terminator
 	fileContent[totalSize] = '\0';
-	// @DOCEND
+
 	return fileContent;
 }
 
