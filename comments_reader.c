@@ -1,12 +1,16 @@
 #include "comments_reader.h"
 #include "file_preprocessor.h"
 #include "utils/str_utils.h"
-
+/*
+@DOCSTART
+@DOCEND
+*/
 const char *docExtractor(const char *input)
 {
 
     const char *inputCharIndex_aux1 = input;
     int inputLength = strlen(input);
+    printf("here%s", input);
     char *returnString = (char *)malloc(1);
     int indexaux = 0;
 
@@ -14,23 +18,25 @@ const char *docExtractor(const char *input)
 
     while (1)
     {
+        char *end = NULL;
+        // @ID Get the first occourrence by using the function
+        // @ID Check if there no more occourrence of the Tokens
         const char *occourrenceAuxiliar = checkFirstOccurrence(inputCharIndex_aux1);
         if (occourrenceAuxiliar == NULL)
         {
             break;
         }
 
+        // @ID Next Step is Jump to the start of next token occourrence
         inputCharIndex_aux1 = strstr(inputCharIndex_aux1, occourrenceAuxiliar);
         if (inputCharIndex_aux1 == NULL)
         {
             break;
         }
-        char *end = NULL;
 
         inputCharIndex_aux1 += strlen(occourrenceAuxiliar);
 
-        // implementar check do \n
-
+        // @ID Do the token start Comparations and set the END variable
         if (strcmp(occourrenceAuxiliar, ID) == 0 || strcmp(occourrenceAuxiliar, INLINEDOC) == 0)
         {
 
