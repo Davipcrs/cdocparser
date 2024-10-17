@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include "../consts_def.h"
+#include "../src/consts_def.h"
 
+char *getCurrentDir();
+char **getAllFilesInTheDir(char *directory, int numberOfFiles);
 #endif

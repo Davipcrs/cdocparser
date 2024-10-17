@@ -1,13 +1,13 @@
 #include "comments_reader.h"
 #include "file_preprocessor.h"
-#include "utils/str_utils.h"
+#include "../utils/str_utils.h"
 
 const char *docExtractor(const char *input)
 {
 
     const char *inputCharIndex_aux1 = input;
     int inputLength = strlen(input);
-    //printf("here");
+    // printf("here");
     char *returnString = (char *)malloc(1);
     int indexaux = 0;
 
@@ -15,8 +15,8 @@ const char *docExtractor(const char *input)
 
     while (1)
     {
-        //printf("here2");
-        
+        // printf("here2");
+
         // @ID Get the first occourrence by using the function
         // @ID Check if there no more occourrence of the Tokens
         const char *occourrenceAuxiliar = checkFirstOccurrence(inputCharIndex_aux1);
@@ -39,7 +39,7 @@ const char *docExtractor(const char *input)
         {
 
             end = strstr(inputCharIndex_aux1, "\n");
-            //printf("end ID %s", end);
+            // printf("end ID %s", end);
             if (end == NULL)
             {
                 perror("Error: can't find '\\n'.\n");
@@ -50,8 +50,8 @@ const char *docExtractor(const char *input)
         {
 
             end = strstr(inputCharIndex_aux1, DOCEND);
-            //printf("end doc %s", end);
-            
+            // printf("end doc %s", end);
+
             if (end == NULL)
             {
                 perror("Error: can't find '@DOCEND'.\n");
@@ -72,7 +72,7 @@ const char *docExtractor(const char *input)
         strncpy(auxText, inputCharIndex_aux1, length);
         auxText[length] = '\0';
 
-//        printf("here3");
+        //        printf("here3");
         /*
         printf("length%ld\n", length);
         printf("r%s\n", returnString);
@@ -94,7 +94,7 @@ const char *docExtractor(const char *input)
         //   printf("%d\n", indexaux);
         //   printf("%s\n", inputCharIndex_aux1);
     }
-    //printf("%s", returnString);
+    // printf("%s", returnString);
     return returnString;
     // input = returnString;
     // free(returnString);
