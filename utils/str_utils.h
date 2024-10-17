@@ -9,8 +9,8 @@
 #include "../src/consts_def.h"
 
 void appendString(char **dest, const char *src, size_t *currentSize);
-void removeSpaces();
+const char *removeSpaces(const char *str);
 const char *checkFirstOccurrence(const char *str);
-void formatString();
+const char *formatString(const char *str, int exportType);
 
 #endif

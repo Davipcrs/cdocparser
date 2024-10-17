@@ -2,10 +2,10 @@
 
 char *loadFile(const char *path)
 {
-	// @ID HEHE
+	// @ID # HEHE @NL
 	/*
 	@DOCSTART
-	This function is the function responsible to implement the file loading.
+	This function is the function responsible to implement the file loading.@NL
 	In the input is a char point (A string) for the path of the file.
 	@DOCEND
 	*/
