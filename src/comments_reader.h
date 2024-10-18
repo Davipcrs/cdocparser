@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "consts_def.h"
+#include "utils/consts_def.h"
 #include <stdbool.h>
 
 const char *docExtractor(const char *input);

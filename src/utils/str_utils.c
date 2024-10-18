@@ -88,7 +88,7 @@ const char *removeSpaces(const char *str)
         i = i + 1;
     }
 
-    for (i; i < len; i++)
+    for (; i < len; i++)
     {
         // If current character is not a space, copy it
         if (!isspace(str[i]))

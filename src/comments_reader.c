@@ -1,6 +1,6 @@
 #include "comments_reader.h"
 #include "file_preprocessor.h"
-#include "../utils/str_utils.h"
+#include "utils/str_utils.h"
 
 const char *docExtractor(const char *input)
 {

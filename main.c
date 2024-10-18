@@ -1,13 +1,16 @@
 #include <stdio.h>
-#include "src/consts_def.h"
+#include "src/utils/consts_def.h"
 #include "src/file_preprocessor.h"
 #include "src/comments_reader.h"
-#include "utils/str_utils.h"
-#include "utils/dir_utils.h"
+#include "src/utils/str_utils.h"
+#include "src/utils/dir_utils.h"
 
 int main()
 {
 	const char *dir = getCurrentDir();
+	// printf("%s\n", dir);
+	// getAllFilesInTheDir(dir, 10);
+	getAllFilesInTheDir(dir, 10);
 	/*
 	char *data = loadFile("./src/file_preprocessor.c");
 	// printf("%s", data);
@@ -25,7 +28,6 @@ int main()
 	//printf("%s", exported);
 
 	*/
-	printf("%s", dir);
 
 	// free(data);
 	// free(r);

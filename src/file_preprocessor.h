@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include "consts_def.h"
+#include "utils/consts_def.h"
 
 char *loadFile(const char *path);
 char *removeNonComments(char *input);
