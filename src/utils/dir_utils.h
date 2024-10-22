@@ -18,5 +18,7 @@
 #define PATH_MAX 4096
 
 char *getCurrentDir();
-char **getAllFilesInTheDir(char *directory, int numberOfFiles);
+char **getAllFilesInTheDir(char *directory);
+void allocStr(char ***array, int size);
+void printStrings(char **array);
 #endif

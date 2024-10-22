@@ -10,7 +10,9 @@ int main()
 	const char *dir = getCurrentDir();
 	// printf("%s\n", dir);
 	// getAllFilesInTheDir(dir, 10);
-	getAllFilesInTheDir(dir, 10);
+	const char **files = getAllFilesInTheDir(dir);
+	// printf("%lu", sizeof(files));
+	printStrings(files);
 	/*
 	char *data = loadFile("./src/file_preprocessor.c");
 	// printf("%s", data);
