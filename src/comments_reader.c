@@ -1,3 +1,5 @@
+// @ID ## comments_reader.c @NL
+
 #include "comments_reader.h"
 #include "file_preprocessor.h"
 #include "utils/str_utils.h"
@@ -8,7 +10,7 @@ const char *docExtractor(const char *input)
     const char *inputCharIndex_aux1 = input;
     int inputLength = strlen(input);
     // printf("here");
-    char *returnString = (char *)malloc(1);
+    char *returnString = malloc(1 * sizeof(char));
     int indexaux = 0;
 
     returnString[0] = '\0';
@@ -34,7 +36,7 @@ const char *docExtractor(const char *input)
         char *end = "\0";
         inputCharIndex_aux1 += strlen(occourrenceAuxiliar);
 
-        // @ID Do the token start Comparations and set the END variable
+        // @ID Do the token start Comparations and set the END variable @NL
         if (strcmp(occourrenceAuxiliar, ID) == 0 || strcmp(occourrenceAuxiliar, INLINEDOC) == 0)
         {
 
@@ -58,10 +60,15 @@ const char *docExtractor(const char *input)
                 return "Error";
             }
         }
+        else
+        {
+            continue;
+        }
 
-        size_t length = end - inputCharIndex_aux1;
-        size_t currentSize = strlen(returnString);
-        char *auxText = (char *)malloc(length + 1);
+        int length = end - inputCharIndex_aux1;
+        // printf("%zu\n", length);
+        int currentSize = strlen(returnString);
+        char *auxText = malloc((length + 1) * sizeof(char));
         if (auxText == NULL)
         {
             perror("mem error");
@@ -79,8 +86,6 @@ const char *docExtractor(const char *input)
         printf("aux%s\n", auxText);
         */
         appendString(&returnString, auxText, &currentSize);
-
-        free(auxText);
 
         if (strcmp(occourrenceAuxiliar, ID) || strcmp(occourrenceAuxiliar, INLINEDOC))
         {

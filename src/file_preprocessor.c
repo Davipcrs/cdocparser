@@ -1,3 +1,5 @@
+// @ID ## file_preprocessor.c @NL
+
 #include "file_preprocessor.h"
 
 char *loadFile(const char *path)
@@ -6,7 +8,7 @@ char *loadFile(const char *path)
 	/*
 	@DOCSTART
 	This function is the function responsible to implement the file loading.@NL
-	In the input is a char point (A string) for the path of the file.
+	In the input is a char point (A string) for the path of the file. @NL
 	@DOCEND
 	*/
 
@@ -82,7 +84,7 @@ char *removeNonComments(char *input)
 	int inputLength = strlen(input);
 	int returnStringWriteIndex = 0;
 	// char returnString[inputLength + 1];
-	char *returnString = (char *)malloc(inputLength + 1);
+	char *returnString = realloc(input, (inputLength + 1) * sizeof(char));
 
 	if (returnString == NULL)
 	{
@@ -160,6 +162,6 @@ char *removeNonComments(char *input)
 		}
 		readIndex++;
 	}
-
+	returnString[readIndex] = '\0';
 	return returnString;
 }

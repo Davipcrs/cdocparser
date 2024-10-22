@@ -1,3 +1,5 @@
+// @ID ## main.c @NL
+
 #include <stdio.h>
 #include "src/utils/consts_def.h"
 #include "src/file_preprocessor.h"
@@ -12,27 +14,34 @@ int main()
 	// getAllFilesInTheDir(dir, 10);
 	const char **files = getAllFilesInTheDir(dir);
 	// printf("%lu", sizeof(files));
-	printStrings(files);
-	/*
-	char *data = loadFile("./src/file_preprocessor.c");
-	// printf("%s", data);
+	// printStrings(files);
+	int i = 0;
+	while (files[i] != NULL)
+	{
+		char *data = loadFile(files[i]);
+		// printf("%s", data);
 
-	char *r = removeNonComments(data);
-	// printf("%s", r);
-	const char *reader = docExtractor(r);
-	// printf("%s", reader);
-	//     printf("%s", r);
+		char *r = removeNonComments(data);
+		// printf("%s", r);
 
-	const char *result = removeSpaces(reader);
-	// printf("%s", result);
+		const char *reader = docExtractor(r);
+		// printf("%s", reader);
+		//        printf("%s", r);
 
-	const char *exported = formatString(result, 2);
-	//printf("%s", exported);
+		const char *result = removeSpaces(reader);
+		// printf("%s", result);
 
-	*/
+		const char *exported = formatString(result, 2);
+		printf("%s", exported);
 
-	// free(data);
-	// free(r);
-	//  free(reader);
+		// free(data);
+		// free(r);
+		// free(reader);
+		free(r);
+		free(reader);
+		free(result);
+		free(exported);
+		i = i + 1;
+	}
 	return 0;
 }

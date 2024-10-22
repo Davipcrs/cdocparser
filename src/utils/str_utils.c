@@ -1,16 +1,19 @@
+// @ID ## str_utils.c @NL
+// @ID This file contains the implementation for the String utils @NL
+
 #include "str_utils.h"
 
 void appendString(char **dest, const char *src, size_t *currentSize)
 {
-    size_t srcLength = strlen(src);
-    size_t destLength = *currentSize;
+    int srcLength = strlen(src);
+    int destLength = *currentSize;
     /*
     printf("strlen %ld\n", srcLength);
     printf("dlen %ld\n", destLength);
     printf("realloclen %ld\n", (srcLength + destLength + 1));
     */
     // Realoca memória para o novo tamanho necessário (texto existente + novo bloco + 1 para o terminador nulo)
-    *dest = (char *)realloc(*dest, destLength + srcLength + 1);
+    *dest = (char *)realloc(*dest, (destLength + srcLength + 1) * sizeof(char));
     if (*dest == NULL)
     {
         perror("Erro ao alocar memória");
@@ -156,9 +159,9 @@ const char *formatString(const char *str, int exportType)
         tmp = tmp + searchLen;
     }
 
-    // @ID Allocate memory for the new string
-    size_t new_len = strlen(str) + count * (replaceLen - searchLen) + 1;
-    char *formatted_str = (char *)malloc(new_len);
+    // @ID Allocate memory for the new string @NL
+    int new_len = strlen(str) + (count * (replaceLen - searchLen));
+    char *formatted_str = malloc((new_len + 1) * sizeof(char));
     if (formatted_str == NULL)
     {
         return NULL; // Memory allocation failed
@@ -189,6 +192,6 @@ const char *formatString(const char *str, int exportType)
             break;
         }
     }
-
+    formatted_str[new_len] = '\0';
     return formatted_str; // Return the new formatted strin
 }

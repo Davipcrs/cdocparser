@@ -1,3 +1,6 @@
+// @ID ## dir_utils.c @NL
+// @ID This file contains the implementation for the directory utils @NL
+
 #include "dir_utils.h"
 #include <dirent.h> // @ID This is a Linux only lib
 

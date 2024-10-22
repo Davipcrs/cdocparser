@@ -1,9 +1,9 @@
 #ifndef CONSTS_DEF_H
 #define CONSTS_DEF_H
 //@DOCSTART
-// ##consts_def.h
+// ## consts_def.h @NL
 // this file is responsible for defining the constants of the application via macros
-// see that the TOKENS are implemented here
+// see that the TOKENS are implemented here @NL
 //@DOCEND
 
 #ifndef FILE_CHUNK_SIZE

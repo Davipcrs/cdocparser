@@ -1,3 +1,5 @@
+// @ID ## str_utils.h @NL
+// @ID This is the Header file for the Str Utils @NL
 #ifndef STR_UTILS_H
 #define STR_UTILS_H
 
