@@ -4,5 +4,5 @@
 #include "utils/consts_def.h";
 #include "comments_reader.h";
 
-void mdExporter();
-void txtExporter();
+void mdExporter(const char *outputPath, const char* data);
+void txtExporter(const char *outputPath, const char* data);

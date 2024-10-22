@@ -6,6 +6,8 @@
 #include "src/comments_reader.h"
 #include "src/utils/str_utils.h"
 #include "src/utils/dir_utils.h"
+#include "src/exporter.h"
+
 
 int main()
 {
@@ -32,7 +34,9 @@ int main()
 		// printf("%s", result);
 
 		const char *exported = formatString(result, 2);
-		printf("%s", exported);
+		//printf("%s", exported);
+
+		mdExporter("docs.txt", exported);
 
 		// free(data);
 		// free(r);
