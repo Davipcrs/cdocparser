@@ -89,7 +89,7 @@ char *removeNonComments(char *input)
 	// char returnString[inputLength + 1];
 	char *returnString = realloc(input, (inputLength + 1) * sizeof(char));
 
-	//@CBE
+	// @CBE
 
 	if (returnString == NULL)
 	{
@@ -171,24 +171,23 @@ char *removeNonComments(char *input)
 			readIndex++;
 			continue;
 		}
-
-		while (isCodeBlock)
-		// needs to debug the CBE.
+		/*
+		if (isCodeBlock)
 		{
-			// printf("%s\n", input + readIndex);
-			if (strncmp(input + readIndex - 13, CODEBLOCKEND, 13) == 0 || strncmp(input + readIndex - 4, CBE, 4) == 0)
+			if (strncmp(input + readIndex, CODEBLOCKEND, 13) == 0 || strncmp(input + readIndex, CBE, 4) == 0)
 			{
-
+				strcat(returnString, CODEBLOCKEND);
 				isCodeBlock = false;
-				break;
+				continue;
 			}
 			returnString[returnStringWriteIndex] = input[readIndex];
 			returnStringWriteIndex++;
 			readIndex++;
+			continue;
 		}
-
+		*/
 		readIndex++;
-	}
+		}
 	returnString[readIndex] = '\0';
 	return returnString;
 }

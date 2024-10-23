@@ -11,23 +11,26 @@
 int main()
 {
 	const char *dir = getCurrentDir();
+
 	// printf("%s\n", dir);
 	// getAllFilesInTheDir(dir, 10);
 	const char **files = getAllFilesInTheDir(dir);
 	// printf("%lu", sizeof(files));
 	// printStrings(files);
 	int i = 0;
+
+	/*
 	while (files[i] != NULL)
 	{
 		char *data = loadFile(files[i]);
-		// printf("%s", data);
+		printf("%s", data);
 
 		char *r = removeNonComments(data);
 		// printf("%s", r);
 
 		const char *reader = docExtractor(r);
 		// printf("%s", reader);
-		//        printf("%s", r);
+		//         printf("%s", r);
 
 		const char *result = removeSpaces(reader);
 		// printf("%s", result);
@@ -35,7 +38,7 @@ int main()
 		const char *exported = formatString(result, 1);
 		// printf("%s", exported);
 
-		mdExporter("docs.txt", exported);
+		// mdExporter("docs.txt", exported);
 
 		// free(data);
 		// free(r);
@@ -46,5 +49,11 @@ int main()
 		free(exported);
 		i = i + 1;
 	}
+	*/
+	char *data = loadFile("src/file_preprocessor.c");
+	// printf("%s", data);
+
+	char *r = removeNonComments(data);
+	printf("%s", r);
 	return 0;
 }

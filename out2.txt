@@ -1,53 +1,39 @@
-// @ID ## file_preprocessor.c @NL
+ @ID ## file_preprocessor.c @NL
+ @ID # HEHE @NL
 
-#include "file_preprocessor.h"
-
-char *loadFile(const char *path)
-{
-	// @ID # HEHE @NL
-	/*
 	@DOCSTART
 	This function is the function responsible to implement the file loading.@NL
 	In the input is a char point (A string) for the path of the file. @NL
 	@DOCEND
-	*/
+	 read file content
+ free(fileContent);
+ free(auxiliarChar);
+ check errors
+ check errors
+ One extra byte for the null terminator
+ add the null terminator
+ @CBS
+bool isSingleLine = false;
+	bool isInMultiLine = false;
+	bool isCodeBlock = false;
+	int saveIndexOfStartComment_aux1 = 0;
+	int saveIndexOfStartComment_aux2 = 0;
+	int readIndex = 0;
+	int inputLength = strlen(input);
+	int returnStringWriteIndex = 0;
+	// char returnString[inputLength + 1];
+	char *returnString = realloc(input, (inputLength + 1) * sizeof(char));
 
-	FILE *file;
-	char buffer[FILE_CHUNK_SIZE];
-	char *fileContent = NULL;
-	size_t bytesRead;
-	size_t totalSize = 0;
-
-	file = fopen(path, "r");
-	if (file == NULL)
-	{
-		perror("Error opening file");
-		return "File is NULL, check the reference";
-	}
-
-	// read file content
-	while ((bytesRead = fread(buffer, 1, FILE_CHUNK_SIZE, file)) > 0)
-	{
-		char *auxiliarChar = realloc(fileContent, totalSize + bytesRead);
-		if (auxiliarChar == NULL)
-		{
-			if (fileContent == NULL)
-			{
-				perror("Error: File has NULL data");
-				fclose(file);
-				// free(fileContent);
-				return "File has NULL data inside";
-			}
-			perror("Error: Can't realloc memory");
-			fclose(file);
-			return fileContent;
-		}
-		fileContent = auxiliarChar;
-
-		memcpy(fileContent + totalSize, buffer, bytesRead);
-		totalSize += bytesRead;
-		// free(auxiliarChar);
-	}
+	//@CBE Check if is in no block and if is a blank space
+ Check if is a single line comment
+ Check if is a MULTI line comment
+ Treat the comments:
+ Check single line end
+ Fim do comentário de linha única
+ Enquanto estivermos dentro de um comentário multilinha, copiamos até encontrar '*/'
+ Fim do comentário multilinha
+ needs to debug the CBE.
+ printf("%s\n", input + readIndex);
 
 	// check errors
 	if (ferror(file))
