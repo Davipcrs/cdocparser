@@ -8,7 +8,6 @@
 #include "src/utils/dir_utils.h"
 #include "src/exporter.h"
 
-
 int main()
 {
 	const char *dir = getCurrentDir();
@@ -33,8 +32,8 @@ int main()
 		const char *result = removeSpaces(reader);
 		// printf("%s", result);
 
-		const char *exported = formatString(result, 2);
-		//printf("%s", exported);
+		const char *exported = formatString(result, 1);
+		// printf("%s", exported);
 
 		mdExporter("docs.txt", exported);
 
