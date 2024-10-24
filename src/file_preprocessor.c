@@ -4,7 +4,7 @@
 
 char *loadFile(const char *path)
 {
-	// @ID # HEHE @NL
+
 	/*
 	@DOCSTART
 	This function is the function responsible to implement the file loading.@NL
@@ -76,8 +76,8 @@ char *loadFile(const char *path)
 
 char *removeNonComments(char *input)
 {
-	// @CBS
-
+	// @DOCSTART
+	// @CBS c
 	bool isSingleLine = false;
 	bool isInMultiLine = false;
 	bool isCodeBlock = false;
@@ -88,8 +88,9 @@ char *removeNonComments(char *input)
 	int returnStringWriteIndex = 0;
 	// char returnString[inputLength + 1];
 	char *returnString = realloc(input, (inputLength + 1) * sizeof(char));
-
-	//@CBE
+	// @CBE
+	// @NL
+	// @DOCEND
 
 	if (returnString == NULL)
 	{
@@ -172,7 +173,7 @@ char *removeNonComments(char *input)
 			continue;
 		}
 
-		//printf("Valor do isCodeBlock: %d\n", isCodeBlock);
+		// printf("Valor do isCodeBlock: %d\n", isCodeBlock);
 		while (isCodeBlock && !isInMultiLine && !isSingleLine)
 		// needs to debug the CBE.
 		{
@@ -191,8 +192,8 @@ char *removeNonComments(char *input)
 
 		readIndex++;
 	}
-	
+
 	returnString[returnStringWriteIndex] = '\0';
-	//returnString[readIndex] = '\0';
+	// returnString[readIndex] = '\0';
 	return returnString;
 }

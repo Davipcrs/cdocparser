@@ -76,6 +76,7 @@ const char *removeSpaces(const char *str)
     int i = 0, j = 0;
     int len = strlen(str);
     int space_found = 0;
+    bool isCodeBlock = false;
 
     // Allocate memory for the result string (same size as the original)
     char *result = (char *)malloc(len + 1);
@@ -93,19 +94,76 @@ const char *removeSpaces(const char *str)
 
     for (; i < len; i++)
     {
-        // If current character is not a space, copy it
-        if (!isspace(str[i]))
+
+        // Detect the start of a code block (@CBS)
+        if (strncmp(&str[i], CBS, 4) == 0)
         {
+            isCodeBlock = true;
+            // Copy @CBS and move index forward
+            strncpy(&result[j], CBS, 4);
+            j += 4;
+            i += 3; // Move past @CBS (since the loop will increment i by 1)
+            continue;
+        }
+
+        if (strncmp(&str[i], CODEBLOCKSTART, 14) == 0)
+        {
+            isCodeBlock = true;
+            // Copy @CBS and move index forward
+            strncpy(&result[j], CODEBLOCKSTART, 14);
+            j += 14;
+            i += 13; // Move past @CBS (since the loop will increment i by 1)
+            continue;
+        }
+
+        if (strncmp(&str[i], CODEBLOCKEND, 13) == 0)
+        {
+            isCodeBlock = false;
+            // Copy @CBS and move index forward
+            strncpy(&result[j], CODEBLOCKEND, 13);
+            j += 13;
+            i += 12; // Move past @CBS (since the loop will increment i by 1)
+            continue;
+        }
+
+        // Detect the end of a code block (@CBE)
+        if (strncmp(&str[i], CBE, 4) == 0)
+        {
+            isCodeBlock = false;
+            // Copy @CBE and move index forward
+            strncpy(&result[j], CBE, 4);
+            j += 4;
+            i += 3; // Move past @CBE (since the loop will increment i by 1)
+            continue;
+        }
+        if (isCodeBlock)
+        {
+            // printf("%s, %d\n", str[i], isspace(str[i + 1]));
+            if (str[i] == '\n' && isspace(str[i + 1]))
+            {
+                result[j] = str[i];
+                i = i + 2;
+                j = j + 1;
+            }
             result[j] = str[i];
-            space_found = 0;
             j = j + 1;
         }
-        // If current character is a space and the last character was not a space, copy a single space
-        else if (!space_found)
+        else
         {
-            result[j] = ' ';
-            space_found = 1;
-            j = j + 1;
+            // If current character is not a space, copy it
+            if (!isspace(str[i]))
+            {
+                result[j] = str[i];
+                space_found = 0;
+                j = j + 1;
+            }
+            // If current character is a space and the last character was not a space, copy a single space
+            else if (!space_found)
+            {
+                result[j] = ' ';
+                space_found = 1;
+                j = j + 1;
+            }
         }
     }
 
@@ -194,4 +252,109 @@ const char *formatString(const char *str, int exportType)
     }
     formatted_str[new_len] = '\0';
     return formatted_str; // Return the new formatted strin
+}
+
+const char *formatCB(const char *str, int exportType)
+{
+    const char *searchString[] = {CODEBLOCKSTART, CBS, CODEBLOCKEND, CBE};
+    int searchLen[4];
+    searchLen[0] = strlen(searchString[0]);
+    searchLen[1] = strlen(searchString[1]);
+    searchLen[2] = strlen(searchString[2]);
+    searchLen[3] = strlen(searchString[3]);
+    int count[4];
+    count[0] = 0;
+    count[1] = 0;
+    count[2] = 0;
+    count[3] = 0;
+
+    const char *replaceString;
+    int replaceLen = 0;
+
+    const char *tmp = str;
+
+    // Check for @NL
+    if (exportType == 1)
+    {
+        // exportType == 1 is .txt output
+        // @NL ==> \n
+        replaceString = "\n===";
+        replaceLen = strlen(replaceString);
+    }
+    else if (exportType == 2)
+    {
+        // exportType == 2 is .md output
+        // @NL ==> "  "
+        replaceString = "\n```";
+        replaceLen = strlen(replaceString);
+    }
+    else
+    {
+        return str;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+
+        tmp = str;
+
+        while ((tmp = strstr(tmp, searchString[i])) != NULL)
+        {
+            count[i] = count[i] + 1;
+            tmp = tmp + searchLen[i];
+        }
+    }
+
+    int newLen = strlen(str) + (count[0] * (replaceLen - searchLen[0])) + (count[1] * (replaceLen - searchLen[1])) + (count[2] * (replaceLen - searchLen[2])) + (count[3] * (replaceLen - searchLen[3]));
+    char *formatted_str = malloc((newLen + 1) * sizeof(char));
+    if (formatted_str == NULL)
+    {
+        return NULL; // Memory allocation failed
+    }
+
+    const char *src = str;
+    char *dst = formatted_str;
+
+    while (*src)
+    {
+        const char *next = NULL;
+        int matchedIndex = -1;
+
+        // Find the next occurrence of any search string
+        for (int i = 0; i < 4; i++)
+        {
+            const char *pos = strstr(src, searchString[i]);
+            if (pos != NULL && (next == NULL || pos < next))
+            {
+                next = pos;
+                matchedIndex = i;
+            }
+        }
+
+        if (next)
+        {
+            // Copy part of the string before the found search string
+            size_t len = next - src;
+            strncpy(dst, src, len);
+            dst += len;
+
+            // Copy the replacement string
+            strcpy(dst, replaceString);
+            dst += replaceLen;
+
+            // Move the source pointer past the search string
+            src = next + searchLen[matchedIndex];
+        }
+        else
+        {
+            // No more occurrences, copy the rest of the string
+            strcpy(dst, src);
+            break;
+        }
+    }
+    // printf("%d\n", newLen);
+    formatted_str[newLen] = '\0';
+
+    // printf("%s\n", formatted_str);
+    return formatted_str;
 }
