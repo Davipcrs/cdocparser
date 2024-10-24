@@ -172,7 +172,8 @@ char *removeNonComments(char *input)
 			continue;
 		}
 
-		while (isCodeBlock)
+		//printf("Valor do isCodeBlock: %d\n", isCodeBlock);
+		while (isCodeBlock && !isInMultiLine && !isSingleLine)
 		// needs to debug the CBE.
 		{
 			// printf("%s\n", input + readIndex);
@@ -185,10 +186,13 @@ char *removeNonComments(char *input)
 			returnString[returnStringWriteIndex] = input[readIndex];
 			returnStringWriteIndex++;
 			readIndex++;
+			continue;
 		}
 
 		readIndex++;
 	}
-	returnString[readIndex] = '\0';
+	
+	returnString[returnStringWriteIndex] = '\0';
+	//returnString[readIndex] = '\0';
 	return returnString;
 }
