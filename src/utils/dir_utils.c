@@ -55,9 +55,10 @@ char **getAllFilesInTheDir(char *directory)
             {
 
             case DT_DIR:
+            {
+                
                 // https://stackoverflow.com/questions/1121383/counting-the-number-of-files-in-a-directory-using-c
                 // printf("%s\n", strcat(strcat(auxiliarDirectory, "/"), entity->d_name));
-
                 char **childDir = getAllFilesInTheDir(strcat(strcat(auxiliarDirectory, "/"), entity->d_name));
 
                 int i = 0;
@@ -78,8 +79,9 @@ char **getAllFilesInTheDir(char *directory)
                 free(childDir);
 
                 break;
-
+            }
             case DT_REG:
+            {
                 if (entity == NULL)
                 {
                     break;
@@ -95,6 +97,7 @@ char **getAllFilesInTheDir(char *directory)
                 strncpy(returnArray[auxiliar], strcat(strcat(auxiliarDirectory, "/"), entity->d_name), PATH_MAX);
                 auxiliar = auxiliar + 1;
                 break;
+            }
             }
         }
         entity = readdir(dir);
