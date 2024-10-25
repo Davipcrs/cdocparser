@@ -5,7 +5,7 @@
 // #### Using the project @NL
 // To use the project you need to use anotations "@SOMETHING" inside comments (WITH THE "@")to generate docs. Substitute the "SOMETHING" with this anotations: @NL
 // @NL - DOCSTART (For starting a doc block) @NL
-// @NL - DOCENT (For ending a doc block) @NL
+// @NL - DOCEND (For ending a doc block) @NL
 // @NL - ID or INLINEDOC (For inline doc - No need to create a doc block) @NL
 // @NL - NL (For new Line) @NL
 // @NL - CODEBLOCKSTART or CBS (For creating a Code Block [Include no Commentary in the doc]) @NL
@@ -30,8 +30,16 @@
 #include "src/utils/dir_utils.h"
 #include "src/exporter.h"
 
-int main()
+int main(int argc, char *argv[])
 {
+
+	if (argc == 1)
+	{
+		menu();
+	}
+	else
+	{
+	}
 	const char *dir = getCurrentDir();
 
 	// printf("%s\n", dir);
