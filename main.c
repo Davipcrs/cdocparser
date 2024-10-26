@@ -23,6 +23,8 @@
 // @DOCEND
 
 #include <stdio.h>
+#include "menu.h"
+#include "cli.h"
 #include "src/utils/consts_def.h"
 #include "src/file_preprocessor.h"
 #include "src/comments_reader.h"
@@ -35,11 +37,15 @@ int main(int argc, char *argv[])
 
 	if (argc == 1)
 	{
+		const char * currentDir = getCurrentDir();
+		const char ** files = getAllFilesInTheDir(currentDir);
 		menu();
 	}
 	else
 	{
+		cli();
 	}
+	/*
 	const char *dir = getCurrentDir();
 
 	// printf("%s\n", dir);

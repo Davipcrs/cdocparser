@@ -1,3 +1,6 @@
+#include "menu.h"
+#include "libcdocparser.h"
+
 /*
 =======================================================================================
 
@@ -17,7 +20,9 @@ c: configurar
 
 
 */
-void menu() {}
+void menu() {
+    return;
+}
 // https://chatgpt.com/c/670af2b8-02b8-800b-a662-188c03f251c1
 // https://chatgpt.com/c/670af3cb-2c30-800b-86d1-ef97357562ad
 // https://chatgpt.com/c/670af731-1bd4-800b-8901-776064b66b55

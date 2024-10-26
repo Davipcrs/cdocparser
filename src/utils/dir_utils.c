@@ -23,28 +23,24 @@ char **getAllFilesInTheDir(char *directory)
         perror("Error loading Dir");
         return NULL;
     }
-    /*
-    for (int i = 0; i < numberOfFiles; i++)
-    {
-        returnArray[i] = malloc(PATH_MAX * sizeof(char));
-        if (returnArray[i] == NULL)
-        {
-            perror("Failed to allocate memory for file name");
-            return NULL;
-        }
-    }
-    */
     struct dirent *entity;
     entity = readdir(dir);
 
     while (entity != NULL)
     {
         char *auxiliarDirectory = malloc(PATH_MAX * sizeof(char));
+        if (auxiliarDirectory == NULL)
+        {
+            perror("Failed to allocate memory for auxiliarDirectory");
+            closedir(dir);
+            return NULL;
+        }
         strncpy(auxiliarDirectory, directory, PATH_MAX);
         // printf("full name: %s\n", strcat(strcat(auxiliarDirectory, "/"), entity->d_name));
         if (strcmp(entity->d_name, ".") == 0 || strcmp(entity->d_name, "..") == 0 || entity->d_name[0] == '.')
         {
             entity = readdir(dir);
+            free(auxiliarDirectory);
             continue;
         }
 
@@ -73,6 +69,7 @@ char **getAllFilesInTheDir(char *directory)
                         return NULL;
                     }
                     strncpy(returnArray[auxiliar], childDir[i], PATH_MAX);
+                    free(childDir[i]);
                     auxiliar = auxiliar + 1;
                     i = i + 1;
                 }
@@ -84,6 +81,7 @@ char **getAllFilesInTheDir(char *directory)
             {
                 if (entity == NULL)
                 {
+                    free(auxiliarDirectory);
                     break;
                 }
                 fileCounter = fileCounter + 1;
@@ -92,6 +90,7 @@ char **getAllFilesInTheDir(char *directory)
                 if (returnArray[auxiliar] == NULL)
                 {
                     perror("Failed to allocate memory for file name");
+                    free(returnArray);
                     return NULL;
                 }
                 strncpy(returnArray[auxiliar], strcat(strcat(auxiliarDirectory, "/"), entity->d_name), PATH_MAX);
@@ -100,19 +99,11 @@ char **getAllFilesInTheDir(char *directory)
             }
             }
         }
+        free(auxiliarDirectory);
         entity = readdir(dir);
     }
     closedir(dir);
 
-    /*
-    for (auxiliar = 0; auxiliar < fileCounter; auxiliar++)
-    {
-        printf("%s\n", returnArray[auxiliar]);
-    }
-
-    *numberOfFiles = fileCouter;
-    */
-    free(entity);
     returnArray[auxiliar] = NULL;
     return returnArray;
 }
