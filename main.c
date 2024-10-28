@@ -37,8 +37,15 @@ int main(int argc, char *argv[])
 
 	if (argc == 1)
 	{
-		const char * currentDir = getCurrentDir();
-		const char ** files = getAllFilesInTheDir(currentDir);
+		char * currentDir = getCurrentDir();
+		char ** files = getAllFilesInTheDir(currentDir);
+		//free(currentDir);
+		int i = 0;
+		while(files[i] != NULL){
+			free(files[i]);
+			i = i + 1;
+		}
+		free(files);
 		menu();
 	}
 	else
