@@ -7,5 +7,6 @@
 #include "src/utils/consts_def.h"
 #include "src/utils/dir_utils.h"
 #include "src/utils/str_utils.h"
+#include "src/utils/parser_data.h"
 
 #endif

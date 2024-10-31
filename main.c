@@ -17,14 +17,14 @@
 // @NL - DOCSTART @NL
 // @NL - CBS [Language, in this case c] @NL
 // @NL - "CODE" @NL
-// @NL - CBE @NL
+// @NL - CBE @NL 
 // @NL - NL @NL
 // @NL - DOCEND @NL
 // @DOCEND
 
 #include <stdio.h>
-#include "menu.h"
-#include "cli.h"
+#include "app/menu.h"
+#include "app/cli.h"
 #include "src/utils/consts_def.h"
 #include "src/file_preprocessor.h"
 #include "src/comments_reader.h"
@@ -35,22 +35,23 @@
 int main(int argc, char *argv[])
 {
 
+	parserType *myData = malloc(sizeof(parserType));
 	if (argc == 1)
 	{
-		char * currentDir = getCurrentDir();
-		char ** files = getAllFilesInTheDir(currentDir);
+		//char * currentDir = getCurrentDir();
+		//char ** files = getAllFilesInTheDir(currentDir);
 		//free(currentDir);
-		int i = 0;
-		while(files[i] != NULL){
-			free(files[i]);
-			i = i + 1;
-		}
-		free(files);
+		//int i = 0;
+		//while(files[i] != NULL){
+		//	free(files[i]);
+		//	i = i + 1;
+		//}
+		//free(files);
 		menu();
 	}
 	else
 	{
-		cli();
+		cli(argc, argv, &myData);
 	}
 	/*
 	const char *dir = getCurrentDir();
