@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 		//	i = i + 1;
 		//}
 		//free(files);
-		menu();
+		menu(&myData);
 	}
 	else
 	{

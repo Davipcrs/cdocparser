@@ -19,7 +19,8 @@ static struct option long_options[] =
 };
 
 
-
+void printHelp();
 void cli(int argc, char *argv[], parserType **programData);
+
 
 #endif
