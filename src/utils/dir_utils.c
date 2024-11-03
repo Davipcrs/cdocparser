@@ -2,7 +2,13 @@
 // @ID This file contains the implementation for the directory utils @NL
 
 #include "dir_utils.h"
-#include <dirent.h> // @ID This is a Linux only lib @NL
+// @DOCSTART
+// @ID This is a Linux only lib @NL
+// @CBS
+#include <dirent.h>
+// @CBE
+// @NL
+// @DOCEND
 
 char *getCurrentDir()
 {
@@ -50,54 +56,54 @@ char **getAllFilesInTheDir(char *directory)
             switch (entity->d_type)
             {
 
-                case DT_DIR:
-                {
-                
+            case DT_DIR:
+            {
+
                 // https://stackoverflow.com/questions/1121383/counting-the-number-of-files-in-a-directory-using-c
                 // printf("%s\n", strcat(strcat(auxiliarDirectory, "/"), entity->d_name));
-                    char **childDir = getAllFilesInTheDir(strcat(strcat(auxiliarDirectory, "/"), entity->d_name));
+                char **childDir = getAllFilesInTheDir(strcat(strcat(auxiliarDirectory, "/"), entity->d_name));
 
-                    int i = 0;
-                    while (childDir[i] != NULL) // Loop until you hit the NULL element
-                    {
-                        fileCounter = fileCounter + 1;
-                        allocStr(&returnArray, fileCounter);
-                        returnArray[auxiliar] = malloc(PATH_MAX * sizeof(char));
-                        if (returnArray[auxiliar] == NULL)
-                        {
-                            perror("Failed to allocate memory for file name");
-                            return NULL;
-                        }
-                        strncpy(returnArray[auxiliar], childDir[i], PATH_MAX);
-                        free(childDir[i]);
-                        auxiliar = auxiliar + 1;
-                        i = i + 1;
-                    }
-                
-                    free(childDir);
-
-                    break;
-                }
-                case DT_REG:
+                int i = 0;
+                while (childDir[i] != NULL) // Loop until you hit the NULL element
                 {
-                    if (entity == NULL)
-                    {
-                        free(auxiliarDirectory);
-                        break;
-                    }
                     fileCounter = fileCounter + 1;
                     allocStr(&returnArray, fileCounter);
                     returnArray[auxiliar] = malloc(PATH_MAX * sizeof(char));
                     if (returnArray[auxiliar] == NULL)
                     {
                         perror("Failed to allocate memory for file name");
-                        free(returnArray);
                         return NULL;
                     }
-                    strncpy(returnArray[auxiliar], strcat(strcat(auxiliarDirectory, "/"), entity->d_name), PATH_MAX);
+                    strncpy(returnArray[auxiliar], childDir[i], PATH_MAX);
+                    free(childDir[i]);
                     auxiliar = auxiliar + 1;
+                    i = i + 1;
+                }
+
+                free(childDir);
+
+                break;
+            }
+            case DT_REG:
+            {
+                if (entity == NULL)
+                {
+                    free(auxiliarDirectory);
                     break;
                 }
+                fileCounter = fileCounter + 1;
+                allocStr(&returnArray, fileCounter);
+                returnArray[auxiliar] = malloc(PATH_MAX * sizeof(char));
+                if (returnArray[auxiliar] == NULL)
+                {
+                    perror("Failed to allocate memory for file name");
+                    free(returnArray);
+                    return NULL;
+                }
+                strncpy(returnArray[auxiliar], strcat(strcat(auxiliarDirectory, "/"), entity->d_name), PATH_MAX);
+                auxiliar = auxiliar + 1;
+                break;
+            }
             }
         }
         free(auxiliarDirectory);
