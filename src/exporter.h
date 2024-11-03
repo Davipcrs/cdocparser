@@ -1,3 +1,6 @@
+#ifndef EXPORTER_H
+#define EXPORTER_H
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,3 +9,5 @@
 
 void mdExporter(const char *outputPath, const char *data);
 void txtExporter(const char *outputPath, const char *data);
+
+#endif
