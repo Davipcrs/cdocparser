@@ -254,7 +254,7 @@ const char *formatString(const char *str, int exportType)
     return formatted_str; // Return the new formatted strin
 }
 
-const char *formatCB(const char *str, int exportType)
+char *formatCB(const char *str, int exportType)
 {
     const char *searchString[] = {CODEBLOCKSTART, CBS, CODEBLOCKEND, CBE};
     int searchLen[4];
@@ -352,6 +352,7 @@ const char *formatCB(const char *str, int exportType)
             break;
         }
     }
+    
     // printf("%d\n", newLen);
     formatted_str[newLen] = '\0';
 

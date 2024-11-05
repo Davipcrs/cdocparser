@@ -1,1 +1,1 @@
-valgrind --leak-check=full ./main.out #-d ./src -o test.md
+valgrind --leak-check=full ./main.out -f main.c -o test.md

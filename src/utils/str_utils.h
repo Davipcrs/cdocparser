@@ -17,7 +17,7 @@ void appendString(char **dest, const char *src, size_t *currentSize);
 const char *removeSpaces(const char *str);
 const char *checkFirstOccurrence(const char *str);
 const char *formatString(const char *str, int exportType);
-const char *formatCB(const char *str, int exportType);
+char *formatCB(const char *str, int exportType);
 // @CBE
 // @NL
 // @DOCEND

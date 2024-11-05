@@ -16,7 +16,7 @@ void cli(int argc, char *argv[], parserType **programData){
     while((ch = getopt_long(argc, argv, "ihf:d:o:c:", long_options, NULL)) != -1){
         if(ch == 'o'){
             output_path_auxiliar = optarg;
-            addOutput(&programData, output_path_auxiliar);
+            addOutput(programData, output_path_auxiliar);
             break;
         }
         /*
@@ -44,7 +44,7 @@ void cli(int argc, char *argv[], parserType **programData){
                 break;
             }
             case 'f':{
-                addFile(&programData, optarg);
+                addFile(programData, optarg);
                 break;
             }
             case 'd':{
@@ -52,7 +52,7 @@ void cli(int argc, char *argv[], parserType **programData){
                 int i = 0;
 
 	            while (helper[i] != NULL){
-                    addFile(&programData, helper[i]);
+                    addFile(programData, helper[i]);
                     free(helper[i]);
                     i = i + 1;
                 }

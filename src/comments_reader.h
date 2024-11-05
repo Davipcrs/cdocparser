@@ -9,6 +9,6 @@
 #include "utils/consts_def.h"
 #include <stdbool.h>
 
-const char *docExtractor(const char *input);
+char *docExtractor(const char *input);
 
 #endif

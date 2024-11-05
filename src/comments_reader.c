@@ -4,7 +4,7 @@
 #include "file_preprocessor.h"
 #include "utils/str_utils.h"
 
-const char *docExtractor(const char *input)
+char *docExtractor(const char *input)
 {
 
     const char *inputCharIndex_aux1 = input;
@@ -86,7 +86,7 @@ const char *docExtractor(const char *input)
         printf("aux%s\n", auxText);
         */
         appendString(&returnString, auxText, &currentSize);
-
+        free(auxText);
         if (strcmp(occourrenceAuxiliar, ID) || strcmp(occourrenceAuxiliar, INLINEDOC))
         {
             inputCharIndex_aux1 = end + 1;
@@ -95,6 +95,7 @@ const char *docExtractor(const char *input)
         {
             inputCharIndex_aux1 = end + strlen(DOCEND);
         }
+        free(occourrenceAuxiliar);
         // inputCharIndex_aux1 = end + strlen(DOCEND);
         //   printf("%d\n", indexaux);
         //   printf("%s\n", inputCharIndex_aux1);

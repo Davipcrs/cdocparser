@@ -61,8 +61,7 @@ int main(int argc, char *argv[])
 		
 	}
 	*/
-	cli(argc, argv, &myData);
-		
+	cli(argc, argv, &myData);	
 	if(myData->number_of_files == 0){
 		const char *dir = getCurrentDir();
 		const char **files = getAllFilesInTheDir(dir);
@@ -81,13 +80,15 @@ int main(int argc, char *argv[])
 	int i = 0;
 	while (myData->input_files[i] != NULL)
 	{
+		printf("%s\n",myData->input_files[i]);
+
 		char *data = loadFile(myData->input_files[i]);
 		// printf("%s", data);
-
+		
 		char *r = removeNonComments(data);
 		// printf("%s", r);
-
-		const char *reader = docExtractor(r);
+		
+		char *reader = docExtractor(r);
 		// printf("%s", reader);
 		//         printf("%s", r);
 
@@ -97,7 +98,7 @@ int main(int argc, char *argv[])
 		const char *exported = formatString(result, 1);
 		// printf("%s", exported);
 
-		const char *last = formatCB(exported, 2);
+		char *last = formatCB(exported, 2);
 		// printf("EXPORTED2: %s\n\n", last);
 
 		mdExporter(myData->output_file, last);
@@ -109,7 +110,11 @@ int main(int argc, char *argv[])
 		free(reader);
 		free(result);
 		free(exported);
+		free(last);
 		i = i + 1;
+		if(myData->input_files[i] == NULL){
+			break;
+		}
 	}
 	/*
 	char *data = loadFile("src/file_preprocessor.c");
@@ -133,6 +138,6 @@ int main(int argc, char *argv[])
 	mdExporter("docs.md", last);
 	*/
 
-	//freeParserData(&myData);
+	freeParserData(&myData);
 	return 0;
 }
