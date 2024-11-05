@@ -3,6 +3,7 @@
 #include <getopt.h>
 #include <stdlib.h>
 #include "src/utils/consts_def.h"
+#include "src/utils/parser_data.h"
 #include <stdio.h>
 
 static struct option long_options[] = 

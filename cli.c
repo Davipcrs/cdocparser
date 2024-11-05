@@ -1,6 +1,8 @@
 #include "cli.h"
 #include "libcdocparser.h"
-#include "menu.h"
+//#include "menu.h"
+#include "src/utils/parser_data.h"
+#include "src/utils/dir_utils.h"
 
 void cli(int argc, char *argv[], parserType **programData){
     int ch = 0;
@@ -11,15 +13,18 @@ void cli(int argc, char *argv[], parserType **programData){
     
     char *output_path_auxiliar = NULL;
 
-    while((ch = getopt_long(argc, argv, "ihf:d:o:c:", long_options, NULL)) != -1)){
-        if(ch == 'c'){
+    while((ch = getopt_long(argc, argv, "ihf:d:o:c:", long_options, NULL)) != -1){
+        if(ch == 'o'){
             output_path_auxiliar = optarg;
+            addOutput(&programData, output_path_auxiliar);
             break;
         }
+        /*
         else if(ch == 'i'){
             menu();
             return;
         }
+        */
     }
 
     optind = 1;
@@ -39,11 +44,19 @@ void cli(int argc, char *argv[], parserType **programData){
                 break;
             }
             case 'f':{
-                printf("file name: %s\n", optarg);
+                addFile(&programData, optarg);
                 break;
             }
             case 'd':{
-                printf("dirname %s\n", optarg);
+                char ** helper = getAllFilesInTheDir(optarg);
+                int i = 0;
+
+	            while (helper[i] != NULL){
+                    addFile(&programData, helper[i]);
+                    free(helper[i]);
+                    i = i + 1;
+                }
+                free(helper);
                 break;
             }
             case 'c':{

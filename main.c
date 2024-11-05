@@ -23,19 +23,24 @@
 // @DOCEND
 
 #include <stdio.h>
-#include "app/menu.h"
-#include "app/cli.h"
 #include "src/utils/consts_def.h"
+//#include "app/menu.h"
+#include "cli.h"
 #include "src/file_preprocessor.h"
 #include "src/comments_reader.h"
 #include "src/utils/str_utils.h"
 #include "src/utils/dir_utils.h"
 #include "src/exporter.h"
+#include "src/utils/parser_data.h"
 
 int main(int argc, char *argv[])
 {
 
 	parserType *myData = malloc(sizeof(parserType));
+	myData->number_of_files = 0;
+	myData->output_file = "docs.md";
+	myData->input_files = malloc(1 * sizeof(char *));
+	/*
 	if (argc == 1)
 	{
 		//char * currentDir = getCurrentDir();
@@ -51,7 +56,17 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
+		
 		cli(argc, argv, &myData);
+		
+	}
+	*/
+	cli(argc, argv, &myData);
+		
+	if(myData->number_of_files == 0){
+		const char *dir = getCurrentDir();
+		const char **files = getAllFilesInTheDir(dir);
+		myData->input_files = files;
 	}
 	/*
 	const char *dir = getCurrentDir();
@@ -62,10 +77,11 @@ int main(int argc, char *argv[])
 	// printf("%lu", sizeof(files));
 	// printStrings(files);
 	int i = 0;
-
-	while (files[i] != NULL)
+	*/
+	int i = 0;
+	while (myData->input_files[i] != NULL)
 	{
-		char *data = loadFile(files[i]);
+		char *data = loadFile(myData->input_files[i]);
 		// printf("%s", data);
 
 		char *r = removeNonComments(data);
@@ -84,7 +100,7 @@ int main(int argc, char *argv[])
 		const char *last = formatCB(exported, 2);
 		// printf("EXPORTED2: %s\n\n", last);
 
-		mdExporter("docs.md", last);
+		mdExporter(myData->output_file, last);
 
 		// free(data);
 		// free(r);
@@ -116,5 +132,7 @@ int main(int argc, char *argv[])
 
 	mdExporter("docs.md", last);
 	*/
+
+	//freeParserData(&myData);
 	return 0;
 }
