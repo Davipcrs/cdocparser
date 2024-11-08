@@ -61,11 +61,18 @@ int main(int argc, char *argv[])
 		
 	}
 	*/
+	if(argc == 1){
+		printHelp();
+		return 0;
+	}
 	cli(argc, argv, &myData);	
 	if(myData->number_of_files == 0){
 		const char *dir = getCurrentDir();
 		const char **files = getAllFilesInTheDir(dir);
 		myData->input_files = files;
+	}
+	if(myData->clicode == 0){
+		return 0;
 	}
 	/*
 	const char *dir = getCurrentDir();
@@ -80,6 +87,8 @@ int main(int argc, char *argv[])
 	int i = 0;
 	while (myData->input_files[i] != NULL)
 	{
+		printf("\n");
+		printf("Loading file: ");
 		printf("%s\n",myData->input_files[i]);
 
 		char *data = loadFile(myData->input_files[i]);
@@ -101,20 +110,16 @@ int main(int argc, char *argv[])
 		char *last = formatCB(exported, 2);
 		// printf("EXPORTED2: %s\n\n", last);
 
+		printf("Exporting to %s...\n", myData->output_file);
 		mdExporter(myData->output_file, last);
 
-		// free(data);
-		// free(r);
-		// free(reader);
+		//free(data);
 		free(r);
 		free(reader);
 		free(result);
 		free(exported);
 		free(last);
 		i = i + 1;
-		if(myData->input_files[i] == NULL){
-			break;
-		}
 	}
 	/*
 	char *data = loadFile("src/file_preprocessor.c");

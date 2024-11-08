@@ -8,6 +8,7 @@
 typedef struct{
     char **input_files;
     int number_of_files;
+    int clicode;
     char *output_file;
 } parserType;
 
